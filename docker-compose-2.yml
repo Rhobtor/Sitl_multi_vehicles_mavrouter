@@ -1,0 +1,20 @@
+services:
+  mavgw:
+    depends_on:
+    - rovers_1
+    - rovers_2
+    entrypoint: sh /app/gw_launch_2.sh
+    image: mickeyli789/mavlink-router
+    ports:
+    - 5760:5760
+    volumes:
+    - ./app:/app
+  rovers_1:
+    entrypoint: /ardupilot/build/sitl/bin/ardurover -w --model=Rover --home=51.501592,-2.551791,0,0
+      --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid=1
+    image: murphy360/ardupilot-sitl-rover
+  rovers_2:
+    entrypoint: /ardupilot/build/sitl/bin/ardurover -w --model=Rover --home=51.501692000000006,-2.551691,0,15
+      --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid=2
+    image: murphy360/ardupilot-sitl-rover
+version: '3.8'
